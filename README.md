@@ -164,7 +164,6 @@ Tema Catppuccin Mocha, fondo con 92% de opacidad, `cursor_trail`, tab bar estilo
 | `cls` | `clear` |
 | `ff` | `fastfetch && clear` |
 | `reroll-ff` | Nuevo logo aleatorio de fastfetch (excluyendo el actual) |
-| `noodle` | Script propio en `~/.local/bin` |
 | `ssh` | `kitten ssh` |
 | `ssh-vps` | SSH al VPS |
 
@@ -226,12 +225,19 @@ También: `starship` (prompt), `zoxide` (`cd` inteligente).
 - **[`tailscale.nix`](config/tailscale.nix)**: VPN con firewall abierto y DNS aceptado.
 - **[`users.nix`](config/users.nix)**: usuario `mrmikedev`, shell `zsh`, grupos `networkmanager`, `wheel`, `bluetooth`, `docker`.
 - **[`packages.nix`](config/packages.nix)**: paquetes a nivel de sistema —
-  - *CLI*: `wget`, `fastfetch`, `bat`, `lsd`, `zip/unzip/rar/unrar`, `figlet`, `just`, `cmatrix`, `tree`, `cava`, `btop`, `libva-utils`, `nix-search-tv`, `television`.
+  - *CLI*: `wget`, `fastfetch`, `bat`, `lsd`, `zip/unzip/rar/unrar`, `figlet`, `just`, `cmatrix`, `tree`, `cava`, `btop`, `libva-utils`, `nix-search-tv`, `television`, `noodle`.
   - *Desarrollo*: `git`, `cargo`, `gcc`, `python3`+`pip`, `bun`, `claude-code`, `docker`+`docker-compose`.
   - *Terminal/Wayland*: `kitty`, `xwayland-satellite`.
   - *Navegador/comunicación*: `brave`, `discord-ptb`.
   - *Multimedia*: `spotify-player`, `spotify`, `easyeffects`, `vlc`, `obs-studio`, `audacity`.
   - *Gaming*: `steam`, `snes9x` (emulador SNES).
+
+  [`noodle`](https://github.com/wilfredinni/noodle) (cliente HTTP de terminal) no está en nixpkgs: se empaqueta
+  como una derivación propia dentro de `packages.nix` que descarga el binario prebuilt de la release de GitHub
+  (fijado a una versión concreta + sha256) y le parchea el intérprete dinámico a la libc de nixpkgs con
+  `patchelf`. Solo se toca el intérprete (sin `autoPatchelfHook`/strip): el binario es un ejecutable de Bun con
+  el script empaquetado adentro, y stripearlo corrompe esos bytes embebidos y hace que corra como `bun` a secas
+  en vez de `noodle`.
 
 Otros ajustes de [`hosts/mrmikedevs-nixos/configuration.nix`](hosts/mrmikedevs-nixos/configuration.nix):
 

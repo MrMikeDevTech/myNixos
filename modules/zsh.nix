@@ -78,7 +78,6 @@
       ff = "clear && fastfetch";
       reroll-ff = "wallpaper-logo --exclude-current && clear && fastfetch";
       conf = "(cd ~/myNixos && nvim)";
-      noodle = "/home/mrmikedev/.local/bin/noodle";
 
       # ssh
       ssh = "kitten ssh";
